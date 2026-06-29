@@ -105,6 +105,11 @@ def get_embeddings(provider: str = None):
     """
     provider = (provider or config.PROVIDER).lower()
 
+    if config.USE_LOCAL_EMBEDDING:
+        from langchain_community.embeddings import HuggingFaceEmbeddings
+        print(f"🧠 Dùng local embedding: {config.LOCAL_EMBEDDING_MODEL}")
+        return HuggingFaceEmbeddings(model_name=config.LOCAL_EMBEDDING_MODEL)
+
     if provider in ("openai", "openrouter"):
         from langchain_openai import OpenAIEmbeddings
         kwargs = {
